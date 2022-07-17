@@ -21,6 +21,13 @@ export async function getServerSideProps({ query }) {
 		posts = (await postsQuery.get()).docs.map(postToJSON);
 	}
 
+	// If no user, short circuit to 404 page
+	if (!userDoc) {
+		return {
+			notFound: true,
+		};
+	}
+
 	return {
 		props: { user, posts }, // will be passed to the page component as props
 	};
